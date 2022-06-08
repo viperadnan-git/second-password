@@ -46,7 +46,7 @@ class RegisterForm(FlaskForm):
 
 class SecretForm(FlaskForm):
     name = StringField(label="Name:", validators=[
-                       Length(min=3, max=16), DataRequired()])
+                       Length(min=3, max=30), DataRequired()])
     secret = StringField(label="Secret:", validators=[DataRequired()])
 
     def validate_secret(self, secret: StringField):
