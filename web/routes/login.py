@@ -16,7 +16,8 @@ def login_page():
         return redirect(url_for('dashboard_page'))
     form = LoginForm()
     if form.validate_on_submit():
-        attempted_user = User.get_or_none(User.username == form.username.data)
+        attempted_user = User.get_or_none(
+            (User.username == form.username.data) | (User.email == form.username.data))
         if attempted_user and bcrypt.check_password_hash(attempted_user.password, form.password.data):
             login_user(attempted_user, remember=(
                 True if form.remember.data else False))
