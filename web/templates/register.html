@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block title%} Register Page {% endblock %} {% block content %}
+
+<div class="container">
+    <div class="row justify-content-center mx-2 my-5">
+        <div class="card col-lg-4 col-md-8 col-sm-12" data-aos="zoom-in">
+            <div class="card-body text-dark">
+                <form method="POST" class="form-signin mt-3">
+                    <h3 class="mb-4 font-weight-normal">Create Account</h3>
+                    {{ form.csrf_token }}
+                    <div class="form-floating mb-3">
+                        <input type="text" name="name" class="form-control" id="floatingName" placeholder="name@example.com" />
+                        <label for="floatingName">Full Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="name@example.com" />
+                        <label for="floatingUsername">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com" />
+                        <label for="floatingEmail">Email address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" name="password1" class="form-control" id="floatingPassword1" placeholder="Password" />
+                        <label for="floatingPassword1">Password</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" name="password2" class="form-control" id="floatingPassword2" placeholder="Password" />
+                        <label for="floatingPassword2">Password</label>
+                    </div>
+
+                    <div class="d-grid gap-2 mb-3">
+                        <button class="btn btn-outline-dark" type="submit">Register</button>
+                    </div>
+                </form>
+                <div class="mb-3 text-center">
+                    <h6>Already have an account? <a class="text-decoration-none" href="{{ url_for('login_page') }}">Login</a></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

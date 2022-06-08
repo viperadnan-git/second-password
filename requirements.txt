@@ -1,0 +1,7 @@
+email_validator
+flask
+flask-bcrypt
+flask-login
+flask-wtf
+peewee
+pyotp
