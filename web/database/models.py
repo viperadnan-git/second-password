@@ -14,7 +14,7 @@ class User(Model, UserMixin):
     def get_id(self):
         return self.user_id
 
-    class Meta():
+    class Meta:
         database = user_db
 
 
@@ -24,5 +24,5 @@ class Secret(Model):
     name = TextField()
     secret = TextField()
 
-    class Meta():
+    class Meta:
         database = user_db

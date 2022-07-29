@@ -1,6 +1,7 @@
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user
 from flask_login.utils import login_required
+
 from web import app
 from web.database import Secret
 from web.routes.forms import DeleteForm
@@ -16,7 +17,7 @@ def get_secret_data(secret_id, username):
         raise ValueError("Password doesn't exists!")
 
 
-@app.route('/delete/<secret_id>', methods=["GET", "POST"])
+@app.route("/delete/<secret_id>", methods=["GET", "POST"])
 @login_required
 def delete_page(secret_id):
     form = DeleteForm()
@@ -25,10 +26,13 @@ def delete_page(secret_id):
             try:
                 Secret.delete_by_id(form.secret_id.data)
                 flash(
-                    f"Password '{form.name.data}' deleted successfully!", category="success")
+                    f"Password '{form.name.data}' deleted successfully!",
+                    category="success",
+                )
             except Secret.DoesNotExist:
                 flash(
-                    f"Password '{form.name.data}' doesn't exists!", category="warning")
+                    f"Password '{form.name.data}' doesn't exists!", category="warning"
+                )
         return redirect(url_for("dashboard_page"))
     if form.errors:
         error = ""
@@ -36,7 +40,11 @@ def delete_page(secret_id):
             error += key + ": " + str(err[0]) + "<br>"
         flash(error, category="danger")
     try:
-        return render_template('delete.html', data=get_secret_data(secret_id, current_user.username),  form=form)
+        return render_template(
+            "delete.html",
+            data=get_secret_data(secret_id, current_user.username),
+            form=form,
+        )
     except ValueError as err:
         flash(str(err), category="danger")
         return redirect(url_for("dashboard_page"))
