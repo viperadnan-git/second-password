@@ -18,7 +18,7 @@ def login_page():
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.get_or_none(
-            (User.username == form.username.data) | (User.email == form.username.data)
+            (User.username == form.username.data.lower()) | (User.email == form.username.data.lower())
         )
         if attempted_user and bcrypt.check_password_hash(
             attempted_user.password, form.password.data

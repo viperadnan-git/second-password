@@ -17,8 +17,8 @@ def register_page():
         usert_to_create = User.create(
             user_id=str(uuid4()),
             name=form.name.data,
-            username=form.username.data,
-            email=form.email.data,
+            username=form.username.data.lower(),
+            email=form.email.data.lower(),
             password=bcrypt.generate_password_hash(form.password1.data).decode("utf-8"),
         )
         login_user(usert_to_create)

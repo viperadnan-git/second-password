@@ -39,14 +39,14 @@ class RegisterForm(FlaskForm):
 
     # validate_<fieldname>
     def validate_username(self, username):
-        user = User.get_or_none(User.username == username.data)
+        user = User.get_or_none(User.username == username.data.lower())
         if user:
             raise ValidationError(
                 "Username already exist! Please try a different username."
             )
 
     def validate_email(self, email):
-        email = User.get_or_none(User.email == email.data)
+        email = User.get_or_none(User.email == email.data.lower())
         if email:
             raise ValidationError(
                 "Email address already exist! Please try a different email addres."
