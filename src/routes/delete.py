@@ -2,9 +2,9 @@ from flask import flash, redirect, render_template, url_for
 from flask_login import current_user
 from flask_login.utils import login_required
 
-from web import app
-from web.database import Secret
-from web.routes.forms import DeleteForm
+from src import app
+from src.database import Secret
+from src.routes.forms import DeleteForm
 
 
 def get_secret_data(secret_id, username):

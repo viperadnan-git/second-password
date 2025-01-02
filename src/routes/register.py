@@ -3,9 +3,9 @@ from uuid import uuid4
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user, login_user
 
-from web import app, bcrypt
-from web.database import User
-from web.routes.forms import RegisterForm
+from src import app, bcrypt
+from src.database import User
+from src.routes.forms import RegisterForm
 
 
 @app.route("/register", methods=["GET", "POST"])

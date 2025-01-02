@@ -1,10 +1,7 @@
 from os import getenv
 
-from dotenv import load_dotenv
+from src import app
 
-from web import app
-
-load_dotenv()
 
 app.run(
     host=getenv("HOST", "0.0.0.0"),

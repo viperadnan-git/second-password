@@ -2,8 +2,8 @@ from flask import render_template
 from flask_login import current_user
 from flask_login.utils import login_required
 
-from web import app
-from web.database import Secret
+from src import app
+from src.database import Secret
 
 
 def get_users_secrets(username: str):

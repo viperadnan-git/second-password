@@ -5,9 +5,9 @@ from flask import flash, redirect, render_template, url_for
 from flask_login import current_user
 from flask_login.utils import login_required
 
-from web import app
-from web.database import Secret
-from web.routes.forms import SecretForm
+from src import app
+from src.database import Secret
+from src.routes.forms import SecretForm
 
 
 @app.route("/add", methods=["GET", "POST"])
@@ -15,11 +15,10 @@ from web.routes.forms import SecretForm
 def add_page():
     form = SecretForm()
     if form.validate_on_submit():
-        secret = re.sub("[\s+]", "", form.secret.data)
         Secret.create(
             username=current_user.username,
             name=form.name.data,
-            secret=secret,
+            secret=form.secret.data,
         )
         flash(f"{form.name.data} added sucessfully !", category="success")
         return redirect(url_for("dashboard_page"))

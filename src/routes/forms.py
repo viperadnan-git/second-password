@@ -5,7 +5,7 @@ from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length,
                                 ValidationError)
 
-from web.database import User
+from src.database import User
 
 
 class LoginForm(FlaskForm):

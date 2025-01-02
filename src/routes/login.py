@@ -1,9 +1,9 @@
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user, login_user, logout_user
 
-from web import app, bcrypt, login_manager
-from web.database import User
-from web.routes.forms import LoginForm
+from src import app, bcrypt, login_manager
+from src.database import User
+from src.routes.forms import LoginForm
 
 
 @login_manager.user_loader
