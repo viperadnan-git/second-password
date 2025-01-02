@@ -29,7 +29,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title text-white">{{secret.password}}</h1>
+                    <h1 class="card-title text-white totp-code" data-secret="{{secret.secret}}">Loading...</h1>
                 </div>
             </div>
         </div>
@@ -39,14 +39,56 @@
     <p class="lead font-weight-normal text-center my-5">You ain't added any passwords yet, <a class="text-white" href="{{ url_for('add_page') }}"> add a new password.</a></p>
     {% endif %}
 </div>
+
 <script>
+    const userPassword = sessionStorage.getItem('userPassword');
+    if (!userPassword) {
+        alert('Please login again to view your passwords.');
+        window.location.href = "{{ url_for('login_page') }}";
+    }
+
+    function decryptSecret(encryptedSecret) {
+        try {
+            const bytes = CryptoJS.AES.decrypt(encryptedSecret, userPassword);
+            return bytes.toString(CryptoJS.enc.Utf8);
+        } catch (err) {
+            console.error('Failed to decrypt secret:', err);
+            return null;
+        }
+    }
+
+    function updateTOTP() {
+        const totpElements = document.getElementsByClassName('totp-code');
+        for (let element of totpElements) {
+            const encryptedSecret = element.dataset.secret;
+            const secret = decryptSecret(encryptedSecret);
+            
+            if (secret) {
+                try {
+                    console.log(`Secret:${secret}:`);
+                    const totp = window.otplib.authenticator.generate(secret);
+                    element.textContent = totp;
+                } catch (err) {
+                    element.textContent = 'Error';
+                    console.error('Failed to generate TOTP:', err);
+                }
+            } else {
+                element.textContent = 'Error';
+            }
+        }
+    }
+
+    // Update TOTP codes every 30 seconds
     function update() {
         const d = new Date();
         let seconds = d.getSeconds();
-        if ((seconds == 0) | (seconds == 31)) {
-            window.location.reload();
+        if (seconds === 0 || seconds === 30) {
+            updateTOTP();
         }
     }
+
+    // Initial update
+    updateTOTP();
     setInterval(update, 999);
 </script>
 {% endblock %}

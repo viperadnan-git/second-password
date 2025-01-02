@@ -15,7 +15,6 @@ def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
         usert_to_create = User.create(
-            user_id=str(uuid4()),
             name=form.name.data,
             username=form.username.data.lower(),
             email=form.email.data.lower(),

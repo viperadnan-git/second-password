@@ -4,7 +4,7 @@
         <h1 class="display-4 font-weight-normal" data-aos="zoom-out" data-aos-duration="1500" data-aos-easing="ease-in-sine">GateKeep</h1>
         <p class="lead font-weight-normal">
             2FA Authenticator made for the web. Synced
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill" viewBox="0 0 16 16">
+            <svg xmlns="http:
                 <path
                     fill-rule="evenodd"
                     d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5z"
@@ -13,7 +13,7 @@
         </p>
         <hr />
         <h3>New Password</h3>
-        <form class="d-grid g-3 text-dark" method="POST">
+        <form class="d-grid g-3 text-dark" method="POST" id="addForm">
             {{ form.csrf_token }}
             <div class="form-floating mb-3">
                 <input name="name" type="text" class="form-control" id="floatingName" placeholder="name@example.com" />
@@ -34,4 +34,31 @@
     </div>
 </div>
 
+<script>
+document.getElementById('addForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const secret = document.getElementById('floatingSecret').value.replace(/\s+/g, '');
+    
+    try {
+        const totp = window.otplib.authenticator.generate(secret);
+    } catch (err) {
+        alert('Invalid secret key. Please check and try again.');
+        return;
+    }
+    
+    const userPassword = sessionStorage.getItem('userPassword');
+    if (!userPassword) {
+        alert('Please login again to add new passwords.');
+        window.location.href = "{{ url_for('login_page') }}";
+        return;
+    }
+    
+    const encryptedSecret = CryptoJS.AES.encrypt(secret, userPassword).toString();
+    
+    document.getElementById('floatingSecret').value = encryptedSecret;
+    
+    this.submit();
+});
+</script>
 {% endblock %}

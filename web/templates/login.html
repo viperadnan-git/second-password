@@ -3,7 +3,7 @@
     <div class="row justify-content-center mx-2 my-5">
         <div class="card col-lg-4 col-md-8 col-sm-12" data-aos="zoom-in">
             <div class="card-body text-dark">
-                <form method="POST" class="form-signin mt-3">
+                <form method="POST" class="form-signin mt-3" id="loginForm">
                     <h3 class="font-weight-normal mb-4">Login</h3>
                     {{ form.csrf_token }}
                     <div class="form-floating mb-3">
@@ -30,4 +30,11 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('floatingPassword').value;
+    sessionStorage.setItem('userPassword', password);
+});
+</script>
 {% endblock %}

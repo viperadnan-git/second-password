@@ -17,7 +17,6 @@ def add_page():
     if form.validate_on_submit():
         secret = re.sub("[\s+]", "", form.secret.data)
         Secret.create(
-            secret_id=str(uuid4()),
             username=current_user.username,
             name=form.name.data,
             secret=secret,

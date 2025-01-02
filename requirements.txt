@@ -4,5 +4,4 @@ flask-bcrypt
 flask-login
 flask-wtf
 peewee
-pyotp
 python-dotenv

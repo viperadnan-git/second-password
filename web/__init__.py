@@ -13,3 +13,5 @@ login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
 
 from .routes import add, dashboard, delete, home, login, register
+
+__all__ = ["app", "login_manager", "add", "dashboard", "delete", "home", "login", "register"]

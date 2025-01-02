@@ -1,6 +1,5 @@
 import re
 
-import pyotp
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length,
@@ -58,13 +57,6 @@ class SecretForm(FlaskForm):
         label="Name:", validators=[Length(min=3, max=30), DataRequired()]
     )
     secret = StringField(label="Secret:", validators=[DataRequired()])
-
-    def validate_secret(self, secret: StringField):
-        try:
-            secret = re.sub("[\s+]", "", secret.data)
-            pyotp.TOTP(str(secret)).now()
-        except Exception as err:
-            raise ValidationError(err)
 
 
 class DeleteForm(FlaskForm):

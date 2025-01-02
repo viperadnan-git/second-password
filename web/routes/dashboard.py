@@ -1,4 +1,3 @@
-import pyotp
 from flask import render_template
 from flask_login import current_user
 from flask_login.utils import login_required
@@ -14,7 +13,7 @@ def get_users_secrets(username: str):
         data.append(
             dict(
                 name=secret.name,
-                password=pyotp.TOTP(secret.secret).now(),
+                secret=secret.secret,
                 id=secret.secret_id,
             )
         )
