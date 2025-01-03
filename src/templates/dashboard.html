@@ -29,7 +29,8 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title text-white totp-code" data-secret="{{secret.secret}}">Loading...</h1>
+                    <h1 class="card-title text-white totp-code cursor-pointer" onclick="copyToClipboard(this)" style="cursor: pointer;" data-secret="{{secret.secret}}">Loading...</h1>
+                    <div class="copy-feedback text-white" style="display: none; font-size: 0.8rem;">Copied!</div>
                 </div>
             </div>
         </div>
@@ -41,11 +42,12 @@
 </div>
 
 <script>
-    const userPassword = sessionStorage.getItem('userPassword');
+    let userPassword = sessionStorage.getItem('userPassword');
     if (!userPassword) {
         const asked = prompt('Please enter your password to view your OTPs.');
         if (asked) {
             sessionStorage.setItem('userPassword', asked);
+            userPassword = asked;
         } else {
             alert('Please login again to view your OTPs.');
             window.location.href = "{{ url_for('login_page') }}";
@@ -59,6 +61,23 @@
         } catch (err) {
             console.error('Failed to decrypt secret:', err);
             return null;
+        }
+    }
+
+    async function copyToClipboard(element) {
+        const text = element.textContent;
+        if (text === 'Loading...' || text === 'Error') return;
+        
+        try {
+            await navigator.clipboard.writeText(text);
+            // Show feedback
+            const feedback = element.nextElementSibling;
+            feedback.style.display = 'block';
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 1000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
         }
     }
 
