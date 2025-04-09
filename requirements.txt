@@ -5,4 +5,4 @@ flask-login
 flask-wtf
 peewee
 python-dotenv
-psycopg2-binary
+psycopg[binary,pool]

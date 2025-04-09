@@ -1,16 +1,19 @@
-from os import environ
+import os
 
-from peewee import SqliteDatabase, PostgresqlDatabase
+from peewee import SqliteDatabase
+from playhouse.psycopg3_ext import Psycopg3Database
+from playhouse.db_url import parse
 
-db_url = environ.get("DATABASE_URL")
+db_url = os.getenv("DATABASE_URL")
 
 if db_url and db_url.startswith("postgres"):
-    user_db = PostgresqlDatabase(
-        db_url,
+    database_params = parse(db_url)
+    user_db = Psycopg3Database(
+        **database_params,
         autorollback=True
     )
 else:
-    user_db = SqliteDatabase((environ.get("SQLITE_PATH") or "user.db"))
+    user_db = SqliteDatabase((os.getenv("SQLITE_PATH") or "user.db"))
 
 user_db.connect()
 
